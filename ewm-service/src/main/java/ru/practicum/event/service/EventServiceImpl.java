@@ -74,7 +74,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto updateByInitiator(Long userId, UpdateEventDto updateEventDto, Long eventId) {
         User user = checkUser(userId);
         Event event = checkEvent(eventId);
-        if (user.getId() != event.getInitiator().getId()) {
+        if (!user.getId().equals(event.getInitiator().getId())) {
             throw new ConflictException("Обновить событие может только инициатор");
         }
         if (event.getState().equals(EventState.PUBLISHED)) {
@@ -138,7 +138,7 @@ public class EventServiceImpl implements EventService {
     public List<ParticipationRequestDto> getRequestByEventIdAndInitiator(Long eventId, Long userId) {
         checkUser(userId);
         Event event = checkEvent(eventId);
-        if (event.getInitiator().getId() != userId) {
+        if (!event.getInitiator().getId().equals(userId)) {
             throw new ConflictException("Вы не инициатор события");
         }
         return participationRequestRepository.findAllByEventId(eventId).stream()
@@ -149,9 +149,9 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventRequestStatusUpdateResult updateStatusRequestsForEventByInitiator(EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest, Long eventId, Long userId) {
-        User user = checkUser(userId);
+        checkUser(userId);
         Event event = checkEvent(eventId);
-        if (event.getInitiator().getId() != userId) {
+        if (!event.getInitiator().getId().equals(userId)) {
             throw new ConflictException("Вы не являетесь инициатором события с id = " + eventId);
         }
         EventRequestStatusUpdateResult result = EventRequestStatusUpdateResult.builder()
