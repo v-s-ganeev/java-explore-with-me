@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS users, categories, locations, events, participation_requests, compilations, compilation_events;
-
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(250) NOT NULL,
