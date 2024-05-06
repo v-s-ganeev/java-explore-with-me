@@ -37,7 +37,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
         if (event.getState() != EventState.PUBLISHED) {
             throw new ConflictException("Регистрация на собитие недоступна.");
         }
-        if (event.getInitiator().getId() == userId) {
+        if (event.getInitiator().getId().equals(userId)) {
             throw new ConflictException("Инициатору события не нужно подавать запрос на участие в нем");
         }
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit() <= event.getConfirmedRequests()) {
