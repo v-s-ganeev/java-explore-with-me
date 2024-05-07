@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.ViewStatsDto;
+import ru.practicum.server.exception.ValidationException;
 import ru.practicum.server.mapper.EndpointHitMapper;
 import ru.practicum.server.repository.StatsRepository;
 
@@ -23,6 +24,9 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean isUnique) {
+        if (start.isAfter(end)) {
+            throw new ValidationException("Начало искомого периода не может быть после конца");
+        }
         if (uris == null) {
             if (isUnique) {
                 return statsRepository.getStatsByUniqueIp(start, end);
