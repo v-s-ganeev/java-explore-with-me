@@ -30,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
+
     @Override
     @Transactional
     public CommentDto create(NewCommentDto newCommentDto, Long userId, Long eventId) {
