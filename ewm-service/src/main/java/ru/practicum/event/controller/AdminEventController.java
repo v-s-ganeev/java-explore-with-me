@@ -29,7 +29,7 @@ public class AdminEventController {
         return eventService.updateByAdmin(updateEventDto, eventId);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<EventFullDto> getAllByFilterForAdmin(
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<Long> categories,
