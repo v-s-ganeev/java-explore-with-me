@@ -115,6 +115,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventFullDto> getAllByFilterForAdmin(List<Long> userIds, List<Long> categoryIds, List<EventState> states, LocalDateTime rangeStart, LocalDateTime rangeEnd, PageRequest pageRequest) {
+        if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
+            throw new ValidationException("Начала периода не может быть раньше его конца");
+        }
         return eventRepository.getEventsByAdmin(userIds, states, categoryIds, rangeStart, rangeEnd, pageRequest).stream()
                 .map(EventMapper::toEventFullDto)
                 .collect(Collectors.toList());
